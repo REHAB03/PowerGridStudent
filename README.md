@@ -231,11 +231,13 @@ cd ~
 
 Si vous souhaitez sauvegarder un état de votre machine virtuelle (par exemple, dans le cas des ordinateurs de l'université qui sont réinitialisés à chaque déconnexion), vous pouvez exporter la machine virtuelle vers un fichier au moyen d'une commande. Vous pourrez alors stocker ce fichier à un endroit sécurisé et demander à wsl de le charger lors d'une utilisation ultérieure.
 
-Une fois votre machine virtuelle éteinte, exécutez la commande suivante dans une invite de commande Windows : 
+Une fois votre machine virtuelle éteinte, exécutez la commande suivante dans une invite de commande Windows, en remplaçant `Ubuntu` par le nom de votre machine virtuelle à sauvegarder : 
 
 ```bash
 wsl --export Ubuntu ubuntu-dev.tar
 ```
+
+> Note : Cette commande a pour fonction de créer un fichier, elle doit donc être exécutée dans un dossier au sein duquel vous disposez des droits en écriture. Utilisez la commande `cd chemin/vers/un/dossier` pour déplacer l'invite de commande vers un dossier dans lequel l'écriture est possible.
 
 Vous devriez voir apparaître un fichier `ubuntu-dev.tar` faisant quelques gigaoctets. Il s'agit du fichier à conserver dans un endroit sûr.
 
@@ -249,7 +251,9 @@ wsl --import Ubuntu-dev UbuntuDev ubuntu-dev.tar
 
 > Si vous travaillez sur les machines de l'université, exécutez cette commande sur le lecteur local **C:** (par exemple dans vos documents). Il vous manquera des droits si vous cherchez à réaliser cette opération drectement sur le réseau.
 
-Le premier paramètre de cette commande est le nom que portera la distribution dans WSL une fois importée. Le deuxième paramètre est le chemin vers le dossier dans lequel la machine virtuelle sera stockée, et le dernier argument est le nom du fichier `.tar` dans lequel la VM a été exportée par le passé.
+Le premier paramètre de cette commande est le nom que portera la distribution dans WSL une fois importée. Le deuxième paramètre est le chemin vers le dossier dans lequel la machine virtuelle importée sera stockée, et le dernier argument est le nom du fichier `.tar` dans lequel la VM a été exportée par le passé.
+
+> Note : Encore une fois, cette commande doit être exécutée dans un dossier au sein duquel vous disposez des droits en écriture.
 
 Pour lancer la machine virtuelle importée, il vous suffira alors de taper la commande :
 
@@ -385,7 +389,7 @@ Il vous est demandé dans l'interface de déverrouiller Jenkins pour la premièr
 sudo cat /var/lib/jenkins/secrets/intialAdminPassword
 ```
 
-> Si cette commande ne fonctionne pas, vous pouvez également trouver le mot de passe quelque part dans la sortie de jenkins obtenue en exécutant la commande `journalctl -u jenkins`.
+> Si cette commande ne fonctionne pas, vous pouvez également trouver le mot de passe quelque part dans la sortie de jenkins obtenue en exécutant la commande `journalctl -u jenkins`, et en descendant dans l'historique des messages jusqu'à trouver le mot de passe.
 
 Copiez ce mot de passe dans le champ correspondant dans votre navigateur web, et validez. Choisissez d'installer les plugins recommandés et attendez la fin de leur configuration.
 
