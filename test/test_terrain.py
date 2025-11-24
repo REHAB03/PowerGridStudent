@@ -9,7 +9,7 @@ class TestTerrain(unittest.TestCase):
     def test_chargement(self):
         #fichier de test représente le terrain
         contenu = """E~ /n
-        ~C~/n
+         C~/n
          ~~~/n"""
         with open("terrain_test.txt", "w") as f:
            f.write(contenu)
@@ -17,7 +17,7 @@ class TestTerrain(unittest.TestCase):
         t = Terrain()
         t.charger("terrain_test.txt")
         #vérification
-        self.assertEqual(t.largeur, 3)
+        self.assertEqual(t.largeur, 13)
         self.assertEqual(t.hauteur, 3)
         self.assertEqual(t[0][0], Case.ENTREE)
         self.assertEqual(t[0][1], Case.VIDE)
