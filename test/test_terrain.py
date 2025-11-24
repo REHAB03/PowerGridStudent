@@ -8,9 +8,10 @@ class TestTerrain(unittest.TestCase):
 
     def test_chargement(self):
         #fichier de test représente le terrain
-        contenu = """E~ /n
+        contenu = """
+        E~ /n
          C~/n
-         ~~~/n"""
+        ~~~/n"""
         with open("terrain_test.txt", "w") as f:
            f.write(contenu)
         #chargement du fichier
@@ -22,7 +23,7 @@ class TestTerrain(unittest.TestCase):
         self.assertEqual(t[0][0], Case.ENTREE)
         self.assertEqual(t[0][1], Case.VIDE)
         self.assertEqual(t[0][2], Case.OBSTACLE)
-        self.assertEqual(t[1][0], Case.VIDE)
+        self.assertEqual(t[1][0], Case.OBSTACLE)
         self.assertEqual(t[1][1], Case.CLIENT)
         self.assertEqual(t[1][2], Case.VIDE)
         self.assertEqual(t[2][0], Case.VIDE)
