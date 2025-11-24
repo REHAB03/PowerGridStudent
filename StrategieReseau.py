@@ -25,7 +25,16 @@ class StrategieReseauManuelle(StrategieReseau):
             noeuds[id_next] = (x, y)
             id_next += 1
             reponse = input("Ajouter un autre noeud ? (yes/no) : ")
-        return -1, {}, []
+        #ajout des arcs
+        reponse = input("\nAjouter un arc ? (o/n) : ")
+        while reponse == "o":
+            print("Créer un arc entre deux noeuds")
+            id_a = int(input("id du premier noeud : "))
+            id_b = int(input("id du second noeud : "))
+            # ici on suppose que les id sont valides (code simple)
+            arcs.append((id_a, id_b))
+            reponse = input("Ajouter un autre arc ? (o/n) : ")
+        return id_entree, noeuds, arcs
 
 class StrategieReseauAuto(StrategieReseau):
     def configurer(self, t: Terrain) -> tuple[int, dict[int, tuple[int, int]], list[tuple[int, int]]]:
