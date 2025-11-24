@@ -45,8 +45,9 @@ class Reseau:
         self.noeud_entree, self.noeuds, self.arcs  = self.strat.configurer(t)
 
     def afficher(self) -> None:
-        # TODO
-        pass
+        print("noeud d'entrée:",self.noeud_entree)
+        print("les noeuds:",self.noeuds)
+        print("les arcs:",self.arcs)
 
     def afficher_avec_terrain(self, t: Terrain) -> None:
         for ligne, l in enumerate(t.cases):
