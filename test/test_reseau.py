@@ -8,16 +8,57 @@ from Terrain import Terrain, Case
 class TestReseau(unittest.TestCase):
 
     def test_definition_entree(self):
-        # TODO
-        self.fail()
+        r = Reseau()
+        
+        
+        r.ajouter_noeud(0, (0, 0))
+        r.definir_entree(0)
+        self.assertEqual(r.noeud_entree, 0)
+        
+        
+        r.definir_entree(99)
+        self.assertEqual(r.noeud_entree, -1)
 
     def test_ajout_noeud(self):
-        # TODO
-        self.fail()
+        r = Reseau()
+        
+        
+        r.ajouter_noeud(0, (0, 0))
+        self.assertIn(0, r.noeuds)
+        self.assertEqual(r.noeuds[0], (0, 0))
+        
+        r.ajouter_noeud(-1, (1, 1))
+        self.assertNotIn(-1, r.noeuds)
+        
+        
+        r.ajouter_noeud(1, (1, 0))
+        r.ajouter_noeud(2, (0, 1))
+        self.assertEqual(len(r.noeuds), 3)
 
     def test_ajout_arc(self):
-        # TODO
-        self.fail()
+        r = Reseau()
+        
+        
+        r.ajouter_noeud(0, (0, 0))
+        r.ajouter_noeud(1, (1, 0))
+        r.ajouter_noeud(2, (0, 1))
+        
+        
+        r.ajouter_arc(0, 1)
+        self.assertIn((0, 1), r.arcs)
+        
+        
+        r.ajouter_arc(2, 0)  
+        self.assertIn((0, 2), r.arcs)
+        
+        # Test adding arc with non-existent nodes
+        r.ajouter_arc(0, 99)  # Node 99 doesn't exist
+        self.assertNotIn((0, 99), r.arcs)
+        
+        # Test duplicate arc prevention
+        initial_arc_count = len(r.arcs)
+        r.ajouter_arc(0, 1)  # Try to add duplicate
+        self.assertEqual(len(r.arcs), initial_arc_count)
 
     def test_validation_correcte(self):
         r = Reseau()
