@@ -7,7 +7,6 @@ from Terrain import Terrain, Case
 class TestTerrain(unittest.TestCase):
 
     def test_chargement(self):
-        # TODO
         #fichier de test représente le terrain
         contenu = """E~ /n
         ~C~/n
