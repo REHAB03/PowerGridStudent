@@ -32,29 +32,23 @@ class Reseau:
         self.strat = strat
 
     def valider_reseau(self) -> bool:
-        
-        
         if not self.noeuds:
             return False
-        
         
         if self.noeud_entree == -1 or self.noeud_entree not in self.noeuds:
             return False
         
-        
         if len(self.noeuds) == 1:
-            return True  
+            return True
         
         visites = set()
         file = [self.noeud_entree]
         visites.add(self.noeud_entree)
         
-        
         adjacence = {n: [] for n in self.noeuds.keys()}
         for n1, n2 in self.arcs:
             adjacence[n1].append(n2)
             adjacence[n2].append(n1)
-        
         
         while file:
             noeud_actuel = file.pop(0)
@@ -63,34 +57,27 @@ class Reseau:
                     visites.add(voisin)
                     file.append(voisin)
         
-        
         return len(visites) == len(self.noeuds)
 
     def valider_distribution(self, t: Terrain) -> bool:
-        
         if not self.valider_reseau():
             return False
         
-        
         for coords in self.noeuds.values():
             x, y = coords
-        
-            if x < 0 or x >= t.hauteur or y < 0 or y >= t.largeur:
+            if x < 0 or y < 0 or x >= len(t.cases) or y >= len(t.cases[0]):
                 return False
-            if t.get_case(x, y) == Case.OBSTACLE:
+            if t.cases[x][y] == Case.OBSTACLE:
                 return False
-        
         
         clients = []
-        for x in range(t.hauteur):
-            for y in range(t.largeur):
-                if t.get_case(x, y) == Case.CLIENT:
+        for x in range(len(t.cases)):
+            for y in range(len(t.cases[0])):
+                if t.cases[x][y] == Case.CLIENT:
                     clients.append((x, y))
-        
         
         if not clients:
             return True
-        
         
         rayon_desserte = 2
         
@@ -98,13 +85,11 @@ class Reseau:
             est_desservi = False
             for noeud_coords in self.noeuds.values():
                 noeud_x, noeud_y = noeud_coords
-               
                 distance = abs(client_x - noeud_x) + abs(client_y - noeud_y)
                 if distance <= rayon_desserte:
                     est_desservi = True
                     break
             
-           
             if not est_desservi:
                 return False
         
@@ -119,26 +104,22 @@ class Reseau:
         print("Les arcs :", self.arcs)
 
     def afficher_avec_terrain(self, t: Terrain) -> None:
-
-        for ligne in range(t.hauteur):
-            for colonne in range(t.largeur):
-                case = t.get_case(ligne, colonne)
-                
+        for ligne in range(len(t.cases)):
+            for colonne in range(len(t.cases[0])):
+                case = t.cases[ligne][colonne]
                 
                 noeud_present = (ligne, colonne) in self.noeuds.values()
                 
                 if noeud_present:
-                    
                     if case == Case.ENTREE:
                         print("E", end="")
                     elif case == Case.CLIENT:
-                        print("©", end="")  
+                        print("©", end="")
                     elif case == Case.OBSTACLE:
-                        print("T", end="")  
+                        print("T", end="")
                     else:
-                        print("+", end="")  
+                        print("+", end="")
                 else:
-                   
                     if case == Case.OBSTACLE:
                         print("X", end="")
                     elif case == Case.CLIENT:
@@ -152,24 +133,19 @@ class Reseau:
             print()
 
     def calculer_cout(self, t: Terrain) -> float:
-        
         cout = 0.0
-        
         
         for _ in self.arcs:
             cout += 1.5
         
-        
         for coords in self.noeuds.values():
             x, y = coords
-          
-            if x >= 0 and x < t.hauteur and y >= 0 and y < t.largeur:
-                if t.get_case(x, y) == Case.OBSTACLE:
+            if x >= 0 and x < len(t.cases) and y >= 0 and y < len(t.cases[0]):
+                if t.cases[x][y] == Case.OBSTACLE:
                     cout += 2
                 else:
                     cout += 1
             else:
-                
                 cout += 10
         
         return cout
