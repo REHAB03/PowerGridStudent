@@ -34,11 +34,17 @@ class Reseau:
         self.strat = strat
 
     def valider_reseau(self) -> bool:
-        # TODO
-        return False
+        if not self.noeuds:   #s'il y a pas de noeuds ou noeud d'entrée
+            return False
+        if self.noeud_entree == -1 or self.noeud_entree not in self.noeuds:
+            return False
+        
+        
 
     def valider_distribution(self, t: Terrain) -> bool:
-        # TODO
+        if not self.valider_reseau():   #s'il y a pas de réseau
+            return False
+        
         return False
 
     def configurer(self, t: Terrain):
