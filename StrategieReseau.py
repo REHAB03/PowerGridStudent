@@ -42,44 +42,29 @@ class StrategieReseauManuelle(StrategieReseau):
 class StrategieReseauAuto(StrategieReseau):
     def configurer(self, t: Terrain) -> tuple[int, dict[int, tuple[int, int]], list[tuple[int, int]]]:
        
-        noeuds: dict[int, tuple[int, int]] = {}
-        arcs: list[tuple[int, int]] = []
-        
-        
-        positions_valides = []
-        for x in range(t.largeur):
-            for y in range(t.hauteur):
-                case = t.get_case(x, y)
-                
-                if case is not None:  
-                    positions_valides.append((x, y))
-        
-        
-        if not positions_valides:
+         noeuds = {}
+         arcs = []
+
+         entree = None
+         for y, ligne in enumerate(t.cases):
+            for x, case in enumerate(ligne):
+                if case == Case.ENTREE:
+                    entree = (y, x)
+                    break
+            if entree:
+                break
+
+         if not entree:
             return -1, {}, []
-        
-        
-        id_entree = 0
-        noeuds[id_entree] = positions_valides[0]
-        
-       
-        id_noeud = 1
-        espacement = 5 
-        
-        for x in range(0, t.largeur, espacement):
-            for y in range(0, t.hauteur, espacement):
-                if (x, y) in positions_valides and (x, y) != noeuds[id_entree]:
-                    noeuds[id_noeud] = (x, y)
-                    id_noeud += 1
-        
-        
-        ids = list(noeuds.keys())
-        for i in range(len(ids) - 1):
-            
-            arcs.append((ids[i], ids[i + 1]))
-        
-        for i in range(0, len(ids) - 2, 2):
-            if i + 2 < len(ids):
-                arcs.append((ids[i], ids[i + 2]))
-        
-        return id_entree, noeuds, arcs
+
+         noeuds[0] = entree
+         nid = 1
+
+         for y, ligne in enumerate(t.cases):
+            for x, case in enumerate(ligne):
+                if case == Case.CLIENT:
+                    noeuds[nid] = (y, x)
+                    arcs.append((0, nid))
+                    nid += 1
+
+         return 0, noeuds, arcs
